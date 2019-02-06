@@ -20,7 +20,7 @@ class TasksController < ApplicationController
             redirect_to @task
         else
             flash.now[:danger] = 'Taskが投稿されませんでした'
-            remder :new
+            render :new
         end
     end
     
@@ -33,7 +33,7 @@ class TasksController < ApplicationController
             redirect_to @task
         else
             flash.now[:danger] = 'Taskが更新されませんでした'
-            remder :edit
+            render :edit
         end
     end
     
@@ -51,7 +51,7 @@ class TasksController < ApplicationController
     end
     
     def task_params
-        params.require(:task).permit(:content)
+        params.require(:task).permit(:content, :status)
     end
     
 end
