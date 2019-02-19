@@ -1,20 +1,23 @@
 class TasksController < ApplicationController
   #before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :require_user_logged_in, only: [:create, :destroy]
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
         
   def index
-    if logged_in?
-      @task = current_user.tasks.build  # form_for 用
-      @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
-    end
+    #if logged_in?
+     # @task = current_user.tasks.build  # form_for 用
+      #@tasks = current_user.tasks.order('created_at DESC').page(params[:page])
+    #end
   end
     
   def show
+    # @task = Task.find(params[:id])
+    # redirect_to root_url unless @task.user == current_user
   end
     
   def new
    # @task = Task.new
+    @task = current_user.tasks.new
   end
     
   def create
@@ -41,6 +44,8 @@ class TasksController < ApplicationController
   end
     
   def edit
+    # @task = Task.find(params[:id])
+    # redirect_to root_url unless @task.user == current_user
   end
     
   def update
@@ -51,6 +56,13 @@ class TasksController < ApplicationController
     #  flash.now[:danger] = 'Taskが更新されませんでした'
     #  render :edit
     #end
+    if @task.update(task_params)
+      flash[:success] = '正常に更新されました。'
+      redirect_to root_url
+    else
+      flash.now[:danger] = '正常に更新されませんでした。'
+      render 'toppages/index'
+    end
   end
     
   def destroy
@@ -79,6 +91,8 @@ class TasksController < ApplicationController
     unless @task
       redirect_to root_url
     end
+    # @task = Task.find(params[:id])
+    # redirect_to root_url unless @task.user == current_user
   end
 end
 

@@ -7,6 +7,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    # 後置if
+    # 自分で無いUserの詳細画面には飛ばさせない
+    redirect_to current_user unless @user == current_user
   end
 
   def new
